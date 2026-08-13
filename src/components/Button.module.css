@@ -16,8 +16,18 @@
     box-shadow 80ms var(--ease);
 }
 
-.button:hover {
+.button:hover:not(:disabled) {
   background: var(--crimson-hover);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.button:disabled:active {
+  transform: none;
+  box-shadow: 0 4px 0 var(--crimson-deep);
 }
 
 /* Pressed: the 4px drop disappears and the button sinks into it. */

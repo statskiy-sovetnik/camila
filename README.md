@@ -101,9 +101,10 @@ in git history (`src/dev/HitRegionOverlay.tsx`, removed once the region was set)
 - The Iris van Herpen copy ("haute couture final boss") was written for the final slot and now sits
   at puzzle 5. Left verbatim on purpose; worth revisiting once 6 and 7 exist.
 
-Puzzle 1 (the legionary) is built. The remaining bodies — option rows for the multiple-choice and
-video puzzles, the picture grid for the dresses — are still stubs, as are the piece lift-out
-animations on the letter.
+Puzzles 1–4, 6 and 7 are built: the legionary has its own body, and everything answered by picking
+one of four rows shares `src/puzzles/MultipleChoice.tsx` (the handoff's "1c template"), including
+the video puzzle, which drops its player into that component's media slot. Puzzle 5 — the
+picture-pick with the dresses — is still a stub, as are the piece lift-out animations on the letter.
 
 ## Deploying
 

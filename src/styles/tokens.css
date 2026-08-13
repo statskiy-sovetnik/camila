@@ -41,6 +41,7 @@
   --border: #d8c69c; /* default border on paper */
   --border-strong: #a67c3b; /* hover / eyebrow label */
   --border-image: #c9b285; /* image frames */
+  --radio-ring: #b09566; /* unselected option's radio dot */
 
   /* ---- Status ------------------------------------------------------------ */
   --success: #2e7d4f;

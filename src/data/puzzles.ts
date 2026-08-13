@@ -90,7 +90,7 @@ export const PUZZLES: Puzzle[] = [
     quip: 'history nerd hours',
     question:
       'Okay pookie, here is another one: Who is depicted in this famous bust, and where is it controversially housed today?',
-    modalWidth: '520px',
+    modalWidth: '676px',
     image: { src: nefertiti, height: 230, objectPosition: '50% 30%' },
     options: [
       'Cleopatra VII; the British Museum, London',
@@ -105,7 +105,7 @@ export const PUZZLES: Puzzle[] = [
     quip: 'fire & blood',
     question:
       'Which dragon is considered riderless and wild at the start of the show, living in the volcanic depths of Dragonstone, and later becomes central to the war?',
-    modalWidth: '520px',
+    modalWidth: '676px',
     image: { src: sheepstealer, height: 200, objectPosition: '50% 78%' },
     options: ['Vermithor, the Bronze Fury', 'Sheepstealer', 'The Cannibal', 'Grey Ghost'],
     correctIndex: 1,
@@ -115,7 +115,7 @@ export const PUZZLES: Puzzle[] = [
     quip: 'turn the sound on',
     question:
       'How well do you know The Neighbourhood? This clip was directed by the legendary Hype Williams. Which track is it?',
-    modalWidth: '520px',
+    modalWidth: '676px',
     // "The Neighbourhood - R.I.P. 2 My Youth (Official Video)", 2:17 + 15s.
     clip: { videoId: 'vKH-rcO6PA8', startSeconds: 137, endSeconds: 152 },
     options: ['Sweater Weather', 'R.I.P. 2 My Youth', 'Daddy Issues', 'The Beach'],
@@ -144,7 +144,7 @@ export const PUZZLES: Puzzle[] = [
     kind: 'multiple-choice',
     quip: 'no pressure ;)',
     question: 'TODO: sixth question',
-    modalWidth: '520px',
+    modalWidth: '676px',
     options: ['TODO', 'TODO', 'TODO', 'TODO'],
     correctIndex: 0,
   },
@@ -152,7 +152,7 @@ export const PUZZLES: Puzzle[] = [
     kind: 'multiple-choice',
     quip: 'last one, promise',
     question: 'TODO: seventh question',
-    modalWidth: '520px',
+    modalWidth: '676px',
     options: ['TODO', 'TODO', 'TODO', 'TODO'],
     correctIndex: 0,
   },
