@@ -1,6 +1,5 @@
 /* Screen 5d — the video well: 250px tall, dark, with our own gold chrome.
-   The YouTube player's native controls are off, so everything visible below
-   the frame is ours. */
+   The element's native controls are off; everything visible is ours. */
 .well {
   position: relative;
   height: 250px;
@@ -9,23 +8,11 @@
   overflow: hidden;
 }
 
-.frame {
-  position: absolute;
-  inset: 0;
-}
-
-.frame iframe {
+.video {
   width: 100%;
   height: 100%;
-  border: 0;
-}
-
-/* Swallows clicks on the video itself so YouTube's own play/pause never fires —
-   the controls below are the only way to drive it. */
-.shield {
-  position: absolute;
-  inset: 0;
-  cursor: default;
+  object-fit: contain;
+  cursor: pointer;
 }
 
 .controls {
@@ -98,7 +85,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Shown if the IFrame API can't load or the video refuses to embed. */
+/* Shown when the file is missing or the browser can't decode it. */
 .fallback {
   position: absolute;
   inset: 0;
@@ -108,9 +95,10 @@
   text-align: center;
   font-family: var(--font-ui);
   font-size: 14px;
+  line-height: 1.6;
   color: var(--on-dark-soft);
 }
 
-.fallback a {
+.fallback code {
   color: var(--gold-a);
 }

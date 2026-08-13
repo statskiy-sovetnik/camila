@@ -44,12 +44,11 @@ describe('puzzles', () => {
     expect(y + height).toBeLessThanOrEqual(1)
   })
 
-  it('plays a 15 second slice for the video puzzle', () => {
+  it('points the video puzzle at a local clip', () => {
     const video = PUZZLES.find((puzzle) => puzzle.kind === 'video')
     expect(video).toBeDefined()
 
-    const { startSeconds, endSeconds, videoId } = video!.clip
-    expect(videoId).toBeTruthy()
-    expect(endSeconds - startSeconds).toBe(15)
+    // Served from public/, so the path has to be root-relative.
+    expect(video!.clipSrc).toMatch(/^\/media\/.+\.\w+$/)
   })
 })

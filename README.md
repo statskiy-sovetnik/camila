@@ -36,7 +36,7 @@ Node 24 (see `.nvmrc`).
 ```
 design/            design handoff, kept verbatim — the source of truth
 src/assets/        images the app imports
-src/components/    Button, Avatar, ProgressBar, YouTubeClip
+src/components/    Button, Avatar, ProgressBar, InkNote, ClipPlayer
 src/data/          puzzles.ts — the 7 puzzles and their content
 src/lib/           reveal schedule, hit-region maths
 src/puzzles/       one body per puzzle kind, dispatched by PuzzleScene
@@ -70,14 +70,26 @@ The order of the `PUZZLES` array in `src/data/puzzles.ts` _is_ the order of the 
 
 ## The video clip
 
-Puzzle 4 plays 2:17–2:32 of [The Neighbourhood — R.I.P. 2 My Youth](https://youtu.be/vKH-rcO6PA8)
-through the YouTube IFrame API. `src/components/YouTubeClip.tsx` hides the native controls and
-draws the handoff's own gold scrubber, counting the 15 seconds of the clip rather than the full
-track; it holds the end boundary itself because the API's `end` parameter is approximate.
+Puzzle 4 plays a 15-second clip and asks which track it is. It is a **local file**, not an embed:
+`src/components/ClipPlayer.tsx` is a plain `<video>` with native controls off and the handoff's
+gold scrubber drawn over it.
 
-This needs network, and it is a VEVO embed — an ad may play first, and the rights holder can
-restrict embedding. If that becomes a problem, the fallback is the handoff's original plan: put a
-15-second `.mp4` in `public/media/` and swap `YouTubeClip` for a plain `<video>`.
+It has to be local because the question's answer is the video's title, and an embedded YouTube
+player always prints that title over the frame — before playback, on pause, and at the end. No
+parameter suppresses it: `showinfo` was retired in 2018 and `modestbranding` in 2023, and both are
+now inert.
+
+The file lives at `public/media/neighbourhood-clip.mp4` and must be trimmed before it is saved —
+the player has no in/out points and plays the file end to end:
+
+```bash
+ffmpeg -ss 137 -i source.mp4 -t 15 -c:v libx264 -crf 21 -c:a aac -movflags +faststart \
+  public/media/neighbourhood-clip.mp4
+```
+
+H.264 video plus AAC audio in an `.mp4` plays everywhere that matters. Anything in `public/` is
+copied to the build root verbatim and committed to the repo, so keep the clip to a couple of MB.
+If the file is missing, the puzzle shows a placeholder naming the expected path instead.
 
 ## The Waldo hit region
 

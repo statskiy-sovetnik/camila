@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Avatar } from '@/components/Avatar'
 import { Button } from '@/components/Button'
-import { YouTubeClip } from '@/components/YouTubeClip'
+import { ClipPlayer } from '@/components/ClipPlayer'
 import type { Puzzle } from '@/data/puzzles'
 import { PUZZLE_COUNT } from '@/lib/reveal'
 import { MultipleChoice } from '@/puzzles/MultipleChoice'
@@ -66,7 +66,7 @@ export function PuzzleScene({ puzzle, index, onSolved }: PuzzleSceneProps) {
             onSolved={onSolved}
             onWrongAnswer={shake}
           >
-            <YouTubeClip clip={puzzle.clip} title="Clip position" />
+            <ClipPlayer src={puzzle.clipSrc} title="Clip position" />
           </MultipleChoice>
         )}
 

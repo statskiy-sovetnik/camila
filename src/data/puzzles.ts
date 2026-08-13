@@ -45,17 +45,11 @@ export interface WaldoPuzzle extends PuzzleBase {
   tip: string
 }
 
-/** A slice of a YouTube video, in seconds from the start of the video. */
-export interface Clip {
-  videoId: string
-  startSeconds: number
-  endSeconds: number
-}
-
 /** 5d — video clip + four radio rows. */
 export interface VideoPuzzle extends PuzzleBase {
   kind: 'video'
-  clip: Clip
+  /** Path under `public/` to a file already trimmed to the intended 15 seconds. */
+  clipSrc: string
   options: string[]
   correctIndex: number
 }
@@ -116,8 +110,10 @@ export const PUZZLES: Puzzle[] = [
     question:
       'How well do you know The Neighbourhood? This clip was directed by the legendary Hype Williams. Which track is it?',
     modalWidth: '676px',
-    // "The Neighbourhood - R.I.P. 2 My Youth (Official Video)", 2:17 + 15s.
-    clip: { videoId: 'vKH-rcO6PA8', startSeconds: 137, endSeconds: 152 },
+    // 15 seconds from 2:17 of "The Neighbourhood — R.I.P. 2 My Youth". A local
+    // file rather than an embed: YouTube prints the title over the frame, which
+    // is the answer. See public/media/README.md.
+    clipSrc: '/media/neighbourhood-clip.mp4',
     options: ['Sweater Weather', 'R.I.P. 2 My Youth', 'Daddy Issues', 'The Beach'],
     correctIndex: 1,
   },
