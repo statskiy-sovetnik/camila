@@ -1,0 +1,42 @@
+/* The crimson pill from the handoff ("Shapes" + "Interactions & Behavior"). */
+.button {
+  display: inline-block;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--crimson);
+  color: var(--paper);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 0 var(--crimson-deep);
+  transition:
+    background-color 120ms var(--ease),
+    transform 80ms var(--ease),
+    box-shadow 80ms var(--ease);
+}
+
+.button:hover {
+  background: var(--crimson-hover);
+}
+
+/* Pressed: the 4px drop disappears and the button sinks into it. */
+.button:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--crimson-deep);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--gold-a);
+  outline-offset: 3px;
+}
+
+.md {
+  padding: 12px 44px;
+  font-size: 22px;
+}
+
+.sm {
+  padding: 10px 34px;
+  font-size: 20px;
+}

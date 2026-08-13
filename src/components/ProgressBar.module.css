@@ -1,0 +1,42 @@
+/* Gold progress bar sitting above the letter (screens 1b / 1e). */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: var(--letter-w);
+}
+
+.track {
+  flex: 1;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-track);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  min-width: 12px; /* 0% still reads as a small nub */
+  border-radius: var(--radius-pill);
+  background: var(--gold-fill);
+  transition: width var(--t-progress) var(--ease);
+}
+
+.glow {
+  box-shadow: var(--gold-glow);
+}
+
+.value {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--on-dark-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--muted-warm);
+}

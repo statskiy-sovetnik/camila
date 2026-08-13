@@ -1,0 +1,15 @@
+/* Cookie Monster, the narrator. Circular crop; object-position keeps the face. */
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  flex: none;
+}
+
+.ring {
+  border: 4px solid var(--crimson);
+}
+
+.tilt {
+  transform: rotate(-4deg);
+}

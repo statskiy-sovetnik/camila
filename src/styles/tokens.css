@@ -1,0 +1,79 @@
+/*
+ * Design tokens — transcribed verbatim from design/README.md ("Design Tokens").
+ * The handoff is high-fidelity: these values are final. Do not invent new colours
+ * or sizes in component styles; add a token here instead.
+ */
+
+:root {
+  /* ---- Surfaces ---------------------------------------------------------- */
+  --desk: #2a2320; /* background: desk / leather */
+  --piece: #3a3129; /* jigsaw piece tone */
+  --paper: #f2e6c9; /* letter & scroll paper */
+  --paper-modal: #f7efdb; /* puzzle modal paper */
+  --paper-option: #fbf5e6; /* option row / target card paper */
+  --paper-bubble: #fffdf4; /* thought-cloud bubble */
+  --player-bg: #17120e; /* video player well */
+
+  /* ---- Ink & text -------------------------------------------------------- */
+  --ink: #1d1509; /* letter body */
+  --ink-heading: #2b2117; /* headings on paper */
+  --ink-body: #3a2e1e; /* body on paper */
+  --ink-body-soft: #4a3b28; /* softer body on paper */
+  --muted: #8a7355; /* narrator quips, captions */
+  --muted-warm: #8a7a63; /* "N of 7 puzzles solved" */
+  --on-dark-soft: #c9b89a; /* progress % on the dark desk */
+
+  /* ---- Accent: crimson --------------------------------------------------- */
+  --crimson: #a63d40;
+  --crimson-hover: #b3494c;
+  --crimson-deep: #7e2d30; /* button drop shadow / depressed state */
+  --crimson-bg: #fdf1ec; /* selected option row background */
+  --crimson-glow: rgba(166, 61, 64, 0.25);
+
+  /* ---- Accent: gold (progress) ------------------------------------------- */
+  --gold-a: #c9a24a;
+  --gold-b: #a37c2c;
+  --gold-fill: linear-gradient(90deg, var(--gold-a), var(--gold-b));
+  --gold-track: rgba(255, 255, 255, 0.08);
+  --gold-glow: 0 0 10px rgba(201, 162, 74, 0.4);
+
+  /* ---- Borders ----------------------------------------------------------- */
+  --border: #d8c69c; /* default border on paper */
+  --border-strong: #a67c3b; /* hover / eyebrow label */
+  --border-image: #c9b285; /* image frames */
+
+  /* ---- Status ------------------------------------------------------------ */
+  --success: #2e7d4f;
+  --success-glow: rgba(46, 125, 79, 0.25);
+
+  /* ---- Scrims & overlays ------------------------------------------------- */
+  --scrim: rgba(20, 15, 12, 0.45);
+  --desk-glow: radial-gradient(ellipse at 50% 42%, rgba(240, 214, 160, 0.1), transparent 62%);
+  --seam: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --paper-vignette: inset 0 0 60px rgba(150, 110, 50, 0.18);
+  --paper-vignette-strong: inset 0 0 70px rgba(150, 110, 50, 0.22);
+
+  /* ---- Typography -------------------------------------------------------- */
+  --font-hand: 'Caveat', cursive; /* narrator copy, buttons, letter body */
+  --font-serif: 'Cormorant Garamond', serif; /* question titles, greeting H1 */
+  --font-ui: 'Karla', system-ui, sans-serif; /* option labels, %, eyebrows */
+
+  /* ---- Radii ------------------------------------------------------------- */
+  --radius-card: 6px;
+  --radius-row: 8px;
+  --radius-modal: 10px;
+  --radius-bubble: 16px;
+  --radius-pill: 999px;
+
+  /* ---- Letter geometry (the jigsaw grid depends on these) ---------------- */
+  --letter-w: 640px;
+  --letter-h: 540px;
+  --grid-cols: 10;
+  --grid-rows: 8;
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --t-progress: 500ms;
+  --t-modal: 200ms;
+  --t-piece: 500ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}

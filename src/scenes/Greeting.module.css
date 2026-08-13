@@ -1,0 +1,38 @@
+/* Screen 1a — Greeting. */
+.screen {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+}
+
+.card {
+  width: 520px;
+  max-width: 100%;
+  padding: 52px 56px;
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 34px;
+  color: var(--ink-heading);
+}
+
+.body {
+  max-width: 400px;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink-body-soft);
+}
