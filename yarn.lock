@@ -383,6 +383,11 @@
   dependencies:
     csstype "^3.2.2"
 
+"@types/youtube@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@types/youtube/-/youtube-0.3.0.tgz#e4456cdde9804a92a6447602399bd87d97ac102a"
+  integrity sha512-a+JnwvmYfCShUv2fPs9JL/rUr9JGx5BPjSn7sp3V5UEyyj2AIVkSCRlVoe4CjFBrkBIv9jMpOPakfitMq7tegA==
+
 "@vitejs/plugin-react@^6.0.4":
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-6.0.5.tgz#48ee7951093ff9054952cff9d64e874355cde372"

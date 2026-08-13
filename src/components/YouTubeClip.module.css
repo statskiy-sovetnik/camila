@@ -1,0 +1,116 @@
+/* Screen 5d — the video well: 250px tall, dark, with our own gold chrome.
+   The YouTube player's native controls are off, so everything visible below
+   the frame is ours. */
+.well {
+  position: relative;
+  height: 250px;
+  border-radius: var(--radius-row);
+  background: var(--player-bg);
+  overflow: hidden;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+}
+
+.frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Swallows clicks on the video itself so YouTube's own play/pause never fires —
+   the controls below are the only way to drive it. */
+.shield {
+  position: absolute;
+  inset: 0;
+  cursor: default;
+}
+
+.controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: linear-gradient(to top, rgba(23, 18, 14, 0.92), rgba(23, 18, 14, 0));
+}
+
+.play {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--crimson);
+  color: var(--paper);
+  cursor: pointer;
+  transition: background-color 120ms var(--ease);
+}
+
+.play:hover:not(:disabled) {
+  background: var(--crimson-hover);
+}
+
+.play:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.play:focus-visible,
+.track:focus-visible {
+  outline: 2px solid var(--gold-a);
+  outline-offset: 3px;
+}
+
+.track {
+  flex: 1;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--gold-track);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.fill {
+  height: 100%;
+  min-width: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--gold-fill);
+  pointer-events: none;
+}
+
+.time {
+  flex: none;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--on-dark-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Shown if the IFrame API can't load or the video refuses to embed. */
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--on-dark-soft);
+}
+
+.fallback a {
+  color: var(--gold-a);
+}

@@ -7,9 +7,11 @@ import legionary from '@/assets/legionary.png'
 import nefertiti from '@/assets/nefertiti.jpg'
 import sheepstealer from '@/assets/sheepstealer.jpg'
 
+/**
+ * The order of this array *is* the order of the game — the "PUZZLE N OF 7"
+ * eyebrow is derived from the index, so puzzles can be reordered freely.
+ */
 interface PuzzleBase {
-  /** 1-based — drives the "PUZZLE N OF 7" eyebrow. */
-  number: number
   /** Narrator aside, right-aligned in the modal header. */
   quip: string
   question: string
@@ -26,21 +28,34 @@ export interface MultipleChoicePuzzle extends PuzzleBase {
   correctIndex: number
 }
 
+/** Rectangle over the scene image, in relative (0–1) coordinates. */
+export interface HitRegion {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 /** 5a — click the legionary in the Rome scene. */
 export interface WaldoPuzzle extends PuzzleBase {
   kind: 'waldo'
   scene: string
   target: { src: string; label: string }
-  /** Hit region in relative (0–1) coordinates of the scene image. */
-  hitRegion: { x: number; y: number; width: number; height: number }
+  hitRegion: HitRegion
   tip: string
+}
+
+/** A slice of a YouTube video, in seconds from the start of the video. */
+export interface Clip {
+  videoId: string
+  startSeconds: number
+  endSeconds: number
 }
 
 /** 5d — video clip + four radio rows. */
 export interface VideoPuzzle extends PuzzleBase {
   kind: 'video'
-  /** Supplied later by Ivan; see public/media/README.md. */
-  clipSrc: string
+  clip: Clip
   options: string[]
   correctIndex: number
 }
@@ -57,40 +72,21 @@ export interface PicturePickPuzzle extends PuzzleBase {
 export type Puzzle = MultipleChoicePuzzle | WaldoPuzzle | VideoPuzzle | PicturePickPuzzle
 
 export const PUZZLES: Puzzle[] = [
-  // TODO(ivan): puzzles 1 and 2 are the 1c template with content still to be written.
-  {
-    kind: 'multiple-choice',
-    number: 1,
-    quip: 'no pressure ;)',
-    question: 'TODO: first question',
-    modalWidth: 520,
-    options: ['TODO', 'TODO', 'TODO', 'TODO'],
-    correctIndex: 0,
-  },
-  {
-    kind: 'multiple-choice',
-    number: 2,
-    quip: 'warming up',
-    question: 'TODO: second question',
-    modalWidth: 520,
-    options: ['TODO', 'TODO', 'TODO', 'TODO'],
-    correctIndex: 0,
-  },
   {
     kind: 'waldo',
-    number: 3,
     quip: "he's in there somewhere…",
     question: "You're in Rome now! Find the legionary.",
     modalWidth: 740,
     scene: findRome,
     target: { src: legionary, label: 'the legionary' },
-    // TODO: measure against the real render — placeholder region for now.
-    hitRegion: { x: 0.5, y: 0.5, width: 0.1, height: 0.1 },
+    // Eyeballed off the scene — the legionary is the figure with the raised
+    // sword by the brick arches on the right. Dial it in with `yarn dev` and
+    // /?calibrate, which draws this rectangle in red over the image.
+    hitRegion: { x: 0.82, y: 0.66, width: 0.05, height: 0.09 },
     tip: 'psst… He is next to the wall with cats',
   },
   {
     kind: 'multiple-choice',
-    number: 4,
     quip: 'history nerd hours',
     question:
       'Okay pookie, here is another one: Who is depicted in this famous bust, and where is it controversially housed today?',
@@ -106,7 +102,6 @@ export const PUZZLES: Puzzle[] = [
   },
   {
     kind: 'multiple-choice',
-    number: 5,
     quip: 'fire & blood',
     question:
       'Which dragon is considered riderless and wild at the start of the show, living in the volcanic depths of Dragonstone, and later becomes central to the war?',
@@ -117,18 +112,19 @@ export const PUZZLES: Puzzle[] = [
   },
   {
     kind: 'video',
-    number: 6,
     quip: 'turn the sound on',
     question:
       'How well do you know The Neighbourhood? This clip was directed by the legendary Hype Williams. Which track is it?',
     modalWidth: 520,
-    clipSrc: '/media/neighbourhood-clip.mp4',
+    // "The Neighbourhood - R.I.P. 2 My Youth (Official Video)", 2:17 + 15s.
+    clip: { videoId: 'vKH-rcO6PA8', startSeconds: 137, endSeconds: 152 },
     options: ['Sweater Weather', 'R.I.P. 2 My Youth', 'Daddy Issues', 'The Beach'],
     correctIndex: 1,
   },
   {
     kind: 'picture-pick',
-    number: 7,
+    // Copy is verbatim from the handoff, where this was the final puzzle. Worth
+    // revisiting once puzzles 6 and 7 have content.
     quip: 'haute couture final boss',
     question:
       'Okay smartpants, only one of those dresses is designed by Iris Van Herpen. Which one? Choose wisely 😈',
@@ -142,5 +138,22 @@ export const PUZZLES: Puzzle[] = [
     correctIndex: 2,
     correctCopy: "Of course you knew it. That's my girl! ✓",
     wrongCopy: 'Hmm, not this one… look closer, pookie',
+  },
+  // TODO(ivan): the last two are the 1c template with content still to be written.
+  {
+    kind: 'multiple-choice',
+    quip: 'no pressure ;)',
+    question: 'TODO: sixth question',
+    modalWidth: 520,
+    options: ['TODO', 'TODO', 'TODO', 'TODO'],
+    correctIndex: 0,
+  },
+  {
+    kind: 'multiple-choice',
+    quip: 'last one, promise',
+    question: 'TODO: seventh question',
+    modalWidth: 520,
+    options: ['TODO', 'TODO', 'TODO', 'TODO'],
+    correctIndex: 0,
   },
 ]
