@@ -15,8 +15,8 @@ interface PuzzleBase {
   /** Narrator aside, right-aligned in the modal header. */
   quip: string
   question: string
-  /** Modal width in px; the handoff varies this per puzzle. */
-  modalWidth: number
+  /** CSS width for the modal — the handoff varies it per puzzle. */
+  modalWidth: string
 }
 
 /** 1c template — image + four radio rows + a Submit button. */
@@ -76,13 +76,13 @@ export const PUZZLES: Puzzle[] = [
     kind: 'waldo',
     quip: "he's in there somewhere…",
     question: "You're in Rome now! Find the legionary.",
-    modalWidth: 740,
+    // The handoff says 740px, but the legionary is tiny — this one needs room.
+    modalWidth: '75vw',
     scene: findRome,
     target: { src: legionary, label: 'the legionary' },
-    // Eyeballed off the scene — the legionary is the figure with the raised
-    // sword by the brick arches on the right. Dial it in with `yarn dev` and
-    // /?calibrate, which draws this rectangle in red over the image.
-    hitRegion: { x: 0.82, y: 0.66, width: 0.05, height: 0.09 },
+    // Relative (0–1) box over the scene: the legionary is the figure with the
+    // raised sword by the brick arches on the right.
+    hitRegion: { x: 0.8255, y: 0.6678, width: 0.0479, height: 0.1354 },
     tip: 'psst… He is next to the wall with cats',
   },
   {
@@ -90,7 +90,7 @@ export const PUZZLES: Puzzle[] = [
     quip: 'history nerd hours',
     question:
       'Okay pookie, here is another one: Who is depicted in this famous bust, and where is it controversially housed today?',
-    modalWidth: 520,
+    modalWidth: '520px',
     image: { src: nefertiti, height: 230, objectPosition: '50% 30%' },
     options: [
       'Cleopatra VII; the British Museum, London',
@@ -105,7 +105,7 @@ export const PUZZLES: Puzzle[] = [
     quip: 'fire & blood',
     question:
       'Which dragon is considered riderless and wild at the start of the show, living in the volcanic depths of Dragonstone, and later becomes central to the war?',
-    modalWidth: 520,
+    modalWidth: '520px',
     image: { src: sheepstealer, height: 200, objectPosition: '50% 78%' },
     options: ['Vermithor, the Bronze Fury', 'Sheepstealer', 'The Cannibal', 'Grey Ghost'],
     correctIndex: 1,
@@ -115,7 +115,7 @@ export const PUZZLES: Puzzle[] = [
     quip: 'turn the sound on',
     question:
       'How well do you know The Neighbourhood? This clip was directed by the legendary Hype Williams. Which track is it?',
-    modalWidth: 520,
+    modalWidth: '520px',
     // "The Neighbourhood - R.I.P. 2 My Youth (Official Video)", 2:17 + 15s.
     clip: { videoId: 'vKH-rcO6PA8', startSeconds: 137, endSeconds: 152 },
     options: ['Sweater Weather', 'R.I.P. 2 My Youth', 'Daddy Issues', 'The Beach'],
@@ -128,7 +128,7 @@ export const PUZZLES: Puzzle[] = [
     quip: 'haute couture final boss',
     question:
       'Okay smartpants, only one of those dresses is designed by Iris Van Herpen. Which one? Choose wisely 😈',
-    modalWidth: 840,
+    modalWidth: '840px',
     images: [
       { src: dress1, alt: 'Dress 1' },
       { src: dress2, alt: 'Dress 2' },
@@ -144,7 +144,7 @@ export const PUZZLES: Puzzle[] = [
     kind: 'multiple-choice',
     quip: 'no pressure ;)',
     question: 'TODO: sixth question',
-    modalWidth: 520,
+    modalWidth: '520px',
     options: ['TODO', 'TODO', 'TODO', 'TODO'],
     correctIndex: 0,
   },
@@ -152,7 +152,7 @@ export const PUZZLES: Puzzle[] = [
     kind: 'multiple-choice',
     quip: 'last one, promise',
     question: 'TODO: seventh question',
-    modalWidth: 520,
+    modalWidth: '520px',
     options: ['TODO', 'TODO', 'TODO', 'TODO'],
     correctIndex: 0,
   },

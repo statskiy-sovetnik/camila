@@ -1,8 +1,11 @@
+import { useState } from 'react'
+
 import { Avatar } from '@/components/Avatar'
 import { Button } from '@/components/Button'
 import { YouTubeClip } from '@/components/YouTubeClip'
 import type { Puzzle } from '@/data/puzzles'
 import { PUZZLE_COUNT } from '@/lib/reveal'
+import { Waldo } from '@/puzzles/Waldo'
 
 import styles from './PuzzleScene.module.css'
 
@@ -14,17 +17,22 @@ interface PuzzleSceneProps {
 }
 
 /**
- * Modal shell — the header, question and framing are in place, and the video
- * puzzle plays its clip.
+ * The modal shell every puzzle shares, plus the dispatch to each puzzle's body.
  *
- * TODO: the remaining per-kind bodies (option rows, Waldo hit region + tip
- * cloud, picture grid), the ink-note feedback, the ~600ms "checking…" delay,
- * the wrong-answer shake, and the blurred letter behind the modal.
+ * TODO: the remaining bodies (option rows for 1c/5d, the picture grid for 5e),
+ * the ~600ms "checking…" delay before feedback, and the blurred letter behind
+ * the modal.
  */
 export function PuzzleScene({ puzzle, index, onSolved }: PuzzleSceneProps) {
+  const [shaking, setShaking] = useState(false)
+
   return (
     <div className={styles.screen}>
-      <div className={styles.modal} style={{ width: puzzle.modalWidth }}>
+      <div
+        className={`${styles.modal} ${shaking ? styles.shake : ''}`}
+        style={{ width: puzzle.modalWidth }}
+        onAnimationEnd={() => setShaking(false)}
+      >
         <div className={styles.header}>
           <div className={styles.identity}>
             <Avatar size={44} />
@@ -37,17 +45,23 @@ export function PuzzleScene({ puzzle, index, onSolved }: PuzzleSceneProps) {
 
         <h2 className={styles.question}>{puzzle.question}</h2>
 
-        {puzzle.kind === 'video' && <YouTubeClip clip={puzzle.clip} title="Clip position" />}
+        {puzzle.kind === 'waldo' ? (
+          <Waldo puzzle={puzzle} onSolved={onSolved} onWrongAnswer={() => setShaking(true)} />
+        ) : (
+          <>
+            {puzzle.kind === 'video' && <YouTubeClip clip={puzzle.clip} title="Clip position" />}
 
-        <p className={styles.todo}>
-          Not built yet &mdash; this is the <code>{puzzle.kind}</code> body.
-        </p>
+            <p className={styles.todo}>
+              Not built yet &mdash; this is the <code>{puzzle.kind}</code> body.
+            </p>
 
-        <div className={styles.actions}>
-          <Button size="sm" onClick={onSolved}>
-            Submit
-          </Button>
-        </div>
+            <div className={styles.actions}>
+              <Button size="sm" onClick={onSolved}>
+                Submit
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

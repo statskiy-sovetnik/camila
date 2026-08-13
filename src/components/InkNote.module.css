@@ -1,0 +1,30 @@
+/* The handoff's chosen answer-feedback treatment: a handwritten line that
+   appears under the puzzle body, as if scribbled on the paper. */
+.note {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.correct {
+  font-size: 30px;
+  color: var(--success);
+}
+
+.wrong {
+  font-size: 26px;
+  color: var(--crimson);
+}
+
+/* Hand-drawn underline, only under the correct note. */
+.underline {
+  width: 120px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--success);
+  transform: rotate(-1.5deg);
+}

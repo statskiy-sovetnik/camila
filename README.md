@@ -38,8 +38,8 @@ design/            design handoff, kept verbatim — the source of truth
 src/assets/        images the app imports
 src/components/    Button, Avatar, ProgressBar, YouTubeClip
 src/data/          puzzles.ts — the 7 puzzles and their content
-src/dev/           dev-only tools, stripped from production builds
-src/lib/reveal.ts  which jigsaw piece belongs to which puzzle
+src/lib/           reveal schedule, hit-region maths
+src/puzzles/       one body per puzzle kind, dispatched by PuzzleScene
 src/scenes/        Greeting, SealedLetter, PuzzleScene, LetterScene
 src/state/         progress + localStorage
 src/styles/        tokens.css, global.css
@@ -79,28 +79,31 @@ This needs network, and it is a VEVO embed — an ad may play first, and the rig
 restrict embedding. If that becomes a problem, the fallback is the handoff's original plan: put a
 15-second `.mp4` in `public/media/` and swap `YouTubeClip` for a plain `<video>`.
 
-## Calibrating the Waldo hit region
+## The Waldo hit region
 
-`yarn dev`, then open **`/?calibrate`**. It draws the current `hitRegion` as a red box over the
-Rome scene — drag it onto the legionary, drag the corner to resize, arrow keys to nudge
-(`Shift` + arrows resize) — then copy the printed line over `hitRegion` in `src/data/puzzles.ts`.
-The current value is a rough eyeball and still needs this treatment.
+Puzzle 1 asks Camila to click the legionary in the Rome scene. The target is a relative (0–1)
+rectangle in `hitRegion` (`src/data/puzzles.ts`), calibrated and in place; finding him rings the
+spot and dims the rest of the scene.
 
-The calibrator lives in `src/dev/` behind an `import.meta.env.DEV` check, so it is dropped from
-production builds entirely.
+Relative coordinates only line up because the scene `<img>` is sized so the element matches the
+rendered picture exactly — `max-width`/`max-height` with `width`/`height: auto`, and no
+`object-fit`. Adding `object-fit` would letterbox the element and quietly break the maths.
+
+If the scene image is ever replaced, the drag-to-calibrate overlay that produced these numbers is
+in git history (`src/dev/HitRegionOverlay.tsx`, removed once the region was set).
 
 ## What is still open
 
 - **Puzzles 6 and 7** — no content yet; `src/data/puzzles.ts` has `TODO` placeholders.
 - **The letter copy** — the text in `LetterScene` is the designer's placeholder. Ivan supplies the
   real letter.
-- **The Waldo hit region** — see above.
 - **The 100% flourish** — deliberately not designed. The handoff says to ask before inventing one.
 - The Iris van Herpen copy ("haute couture final boss") was written for the final slot and now sits
   at puzzle 5. Left verbatim on purpose; worth revisiting once 6 and 7 exist.
 
-Scene bodies (option rows, the Waldo tip cloud, the picture grid, ink-note feedback, piece lift-out
-animations) are still stubs.
+Puzzle 1 (the legionary) is built. The remaining bodies — option rows for the multiple-choice and
+video puzzles, the picture grid for the dresses — are still stubs, as are the piece lift-out
+animations on the letter.
 
 ## Deploying
 
