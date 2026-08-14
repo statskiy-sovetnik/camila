@@ -14,6 +14,7 @@ import findRome from '@/assets/find-rome.webp'
 import legionary from '@/assets/legionary.png'
 import nefertiti from '@/assets/nefertiti.jpg'
 import sheepstealer from '@/assets/sheepstealer.jpg'
+import slushyNoobz from '@/assets/slushy-noobz.png'
 
 /**
  * The order of this array *is* the order of the game — the "PUZZLE N OF 7"
@@ -180,15 +181,24 @@ export const PUZZLES: Puzzle[] = [
     ],
     wrongCopy: 'Not quite, try again, little dove!',
   },
-  // TODO(ivan): the last two are the 1c template with content still to be written.
   {
     kind: 'multiple-choice',
-    quip: 'no pressure ;)',
-    question: 'TODO: sixth question',
+    quip: 'chronically online hours',
+    question: "Okay, this one's your territory: what are the Slushy Noobz' real names?",
     modalWidth: '676px',
-    options: ['TODO', 'TODO', 'TODO', 'TODO'],
-    correctIndex: 0,
+    image: { src: slushyNoobz, height: 250, objectPosition: '50% 55%' },
+    // The decoys copy the shape of the real answer — an Arabic given name with
+    // `Al-` plus a Slavic surname — so none of them is ruled out at a glance.
+    options: [
+      'Yusuf Al-Rashid, Tomas Novakovic',
+      'Karim Al-Haddad, Luka Petrovic',
+      'Hamzah Al-Emad, Martin Andrijasevic',
+      'Omar Al-Sayed, Stefan Markovic',
+    ],
+    // Not the second row: the three questions before this one all answer to 1.
+    correctIndex: 2,
   },
+  // TODO(ivan): the last one is the 1c template with content still to be written.
   {
     kind: 'multiple-choice',
     quip: 'last one, promise',

@@ -68,7 +68,7 @@ The order of the `PUZZLES` array in `src/data/puzzles.ts` _is_ the order of the 
 3. Sheepstealer
 4. The Neighbourhood clip
 5. Iris van Herpen dresses — three rounds, counting as one puzzle
-6. _(no content yet)_
+6. The Slushy Noobz' real names
 7. _(no content yet)_
 
 ## The video clip
@@ -137,7 +137,9 @@ cheaper than timing the unmount, and `prefers-reduced-motion` simply lands them 
 
 ## What is still open
 
-- **Puzzles 6 and 7** — no content yet; `src/data/puzzles.ts` has `TODO` placeholders.
+- **Puzzle 7** — no content yet; `src/data/puzzles.ts` has a `TODO` placeholder.
+- `src/assets/slushy-noobz.png` is a 2.9 MB PNG of what is really a photograph. Re-encoding it as
+  WebP would take it under 250 KB; left as Ivan supplied it.
 - **The letter copy** — the text in `LetterScene` is the designer's placeholder. Ivan supplies the
   real letter.
 - **The 100% flourish** — deliberately not designed. The handoff says to ask before inventing one.
