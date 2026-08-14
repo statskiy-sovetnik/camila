@@ -27,6 +27,45 @@
   overflow: hidden;
 }
 
+/* Ivan's letter is longer than the paper is tall, so once it is hers to read it
+   scrolls. Not a moment sooner: while pieces still cover it, the overlay is a
+   sibling pinned to the stage and would not scroll with the writing underneath. */
+.readable {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.readable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.readable::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-pill);
+  background: var(--border);
+}
+
+.readable::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+.readable:focus-visible {
+  outline: 2px solid var(--gold-a);
+  outline-offset: 3px;
+}
+
+/* Only the writing is blurred, never the paper: blurring the article itself
+   would soften the paper's own edges, which show through wherever a piece has
+   already been lifted. */
+.writing {
+  /* Screen 5g: half a second for the letter to come into focus. */
+  transition: filter 500ms var(--ease);
+}
+
+.blurred {
+  filter: blur(5px);
+}
+
 .salutation {
   font-size: 30px;
   margin-bottom: 12px;
@@ -87,6 +126,50 @@
   left: 50%;
   bottom: -11px;
   transform: translateX(-50%);
+}
+
+/* ---- Screen 5g: the final prompt --------------------------------------- */
+
+/* The scrim over the finished letter. It outlives the prompt card by half a
+   second, fading out alongside the blur once she has clicked through. */
+.finale {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  background: var(--scrim);
+  transition: opacity 500ms var(--ease);
+}
+
+.lifted {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.prompt {
+  width: 420px;
+  max-width: calc(100% - 40px);
+}
+
+/* The card pops away first; only then does the blur start easing off. */
+.dismissing {
+  animation: dismiss 250ms ease-in forwards;
+}
+
+@keyframes dismiss {
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.promptCopy {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink-body);
 }
 
 /* Newly unlocked pieces lift off the paper and fade, staggered along a diagonal

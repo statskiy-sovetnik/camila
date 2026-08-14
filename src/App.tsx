@@ -25,6 +25,9 @@ export default function App() {
     setConfirmingRestart(false)
   }
 
+  /** Screen 5g — the same either way the letter scene is reached. */
+  const finale = { revealed: progress.letterRevealed, onReveal: progress.revealLetter }
+
   const renderScene = () => {
     switch (scene) {
       case 'greeting':
@@ -35,7 +38,7 @@ export default function App() {
 
       case 'puzzle': {
         const puzzle = PUZZLES[progress.solvedCount]
-        if (!puzzle) return <LetterScene solvedCount={progress.solvedCount} />
+        if (!puzzle) return <LetterScene solvedCount={progress.solvedCount} {...finale} />
 
         return (
           <PuzzleScene
@@ -54,6 +57,7 @@ export default function App() {
           <LetterScene
             solvedCount={progress.solvedCount}
             onNext={progress.isComplete ? undefined : () => setScene('puzzle')}
+            {...finale}
           />
         )
     }

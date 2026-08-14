@@ -59,6 +59,17 @@ describe('restarting the game', () => {
     expect(window.localStorage.getItem(STORAGE_KEY)).toBe('4')
   })
 
+  it('clears the revealed letter too, so the finale plays again', () => {
+    window.localStorage.setItem(STORAGE_KEY, '7')
+    window.localStorage.setItem('camila.revealed.v1', 'true')
+    render(<App />)
+
+    fireEvent.click(restartButton())
+    fireEvent.click(screen.getByRole('button', { name: /Yes, restart/ }))
+
+    expect(window.localStorage.getItem('camila.revealed.v1')).toBe('false')
+  })
+
   it('clears the save and returns to the greeting once confirmed', () => {
     window.localStorage.setItem(STORAGE_KEY, '4')
     render(<App />)

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Avatar } from '@/components/Avatar'
 import { Button } from '@/components/Button'
 import { InkNote } from '@/components/InkNote'
+import { PromptCard } from '@/components/PromptCard'
 import { TipCloud } from '@/components/TipCloud'
 import type { EmojiRiddlePuzzle } from '@/data/puzzles'
 
@@ -87,19 +88,18 @@ export function EmojiRiddle({ puzzle, onSolved, onWrongAnswer }: EmojiRiddleProp
 
   if (phase !== 'asking') {
     return (
-      // The wrapper holds the avatar's overhang and fades card and avatar as one.
-      <div className={`${styles.introWrap} ${phase === 'leaving' ? styles.leaving : ''}`}>
-        <Avatar size={64} ring className={styles.introAvatar} />
+      <PromptCard
+        eyebrow="Final challenge"
+        avatarSize={64}
+        ring
+        className={phase === 'leaving' ? styles.leaving : ''}
+      >
+        <p className={styles.introCopy}>{puzzle.intro}</p>
 
-        <div className={`${styles.card} ${styles.intro}`}>
-          <p className="eyebrow">Final challenge</p>
-          <p className={styles.introCopy}>{puzzle.intro}</p>
-
-          <Button size="sm" onClick={start} disabled={phase === 'leaving'}>
-            {puzzle.startLabel}
-          </Button>
-        </div>
-      </div>
+        <Button size="sm" onClick={start} disabled={phase === 'leaving'}>
+          {puzzle.startLabel}
+        </Button>
+      </PromptCard>
     )
   }
 

@@ -10,32 +10,7 @@
 
 /* ---- State 1: the intro card ------------------------------------------- */
 
-/* Wraps card + overhanging avatar, so the two fade out as one piece. */
-.introWrap {
-  position: relative;
-  /* The half of the avatar that sits above the card's top edge. */
-  padding-top: 32px;
-}
-
-.introAvatar {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 1;
-  transform: translateX(-50%);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.35);
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  /* Generous top padding leaves room under the overhanging avatar. */
-  padding: 42px 34px 26px;
-  text-align: center;
-}
-
+/* The card itself is `PromptCard`; only the copy is this screen's business. */
 .introCopy {
   font-family: var(--font-hand);
   font-weight: 600;

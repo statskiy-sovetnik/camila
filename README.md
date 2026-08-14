@@ -39,8 +39,8 @@ Node 24 (see `.nvmrc`).
 ```
 design/            design handoff, kept verbatim — the source of truth
 src/assets/        images the app imports
-src/components/    Button, Avatar, ProgressBar, InkNote, ClipPlayer, TipCloud, RestartButton,
-                   ConfirmDialog
+src/components/    Button, Avatar, ProgressBar, InkNote, ClipPlayer, TipCloud, PromptCard,
+                   RestartButton, ConfirmDialog
 src/data/          puzzles.ts — the 7 puzzles and their content
 src/lib/           reveal schedule, hit-region maths
 src/puzzles/       one body per puzzle kind, dispatched by PuzzleScene
@@ -145,6 +145,37 @@ particles, the lot. That was built and then dropped at Ivan's request in favour 
 (`.leaving`, mirroring the riddles' `arrive`). The burn version is in git history if it is ever
 wanted back.
 
+## The finale
+
+The writing is out of focus for the whole game, not only at the end: every patch a solved puzzle
+opens up teases the shape and length of a paragraph but stays unreadable, so the letter is only
+ever read once, at the finish. Only the writing carries the blur, never the `<article>` — blurring
+the paper itself would soften its edges, which show wherever a piece has already lifted.
+
+At 100% the letter is unlocked but still blurred, behind a scrim, with a last word from Cookie
+Monster on top — screen **5g**, its own handoff in `final-prompt/design_handoff_final_prompt/`.
+"Reveal the Letter 👁️" pops the card away first (250ms) and only then lets the blur ease off over
+half a second, so the two never overlap. `LetterScene` runs that as a small phase machine.
+
+The prompt deliberately waits ~900ms before appearing: the last batch of jigsaw pieces is still
+flying at that point, and the card arriving over them reads as two animations fighting. That delay
+is not in the handoff.
+
+This is the site's resting state and it is **remembered**: `camila.revealed.v1` in `localStorage`,
+its own key rather than a field on `camila.progress.v1`, which holds a bare number that older saves
+would not survive being widened. A revisit goes straight to the clean letter. `reset()` clears it
+along with the count — otherwise "Restart game" would replay the whole game and then skip the
+finale, which `src/App.test.tsx` guards against.
+
+Once revealed, the paper becomes a scroll container — the letter is longer than the sheet, and this
+is the only point at which scrolling is safe: while pieces still cover it, the jigsaw overlay is a
+sibling pinned to the stage and would not travel with the writing underneath it. It picks up a tab
+stop at the same moment, since by then it is a scrollable region a keyboard user has to reach.
+
+`LetterScene` captures "am I the finale?" once at mount. When the parent flips `revealed` on the way
+out, the scene still has a scrim to fade and a blur to ease off, and reading the prop live would cut
+both short.
+
 ## The jigsaw overlay
 
 `src/lib/reveal.ts` assigns each of the 80 pieces to one of the 7 puzzles and says which edge
@@ -165,14 +196,12 @@ placeholder any more. What is left is around them:
 
 - `src/assets/slushy-noobz.png` is a 2.9 MB PNG of what is really a photograph. Re-encoding it as
   WebP would take it under 250 KB; left as Ivan supplied it.
-- **The paper is too small for the letter.** Ivan's real text is in `src/data/letter.ts`, but at the
-  handoff's 640×540 and 19px it needs 962px of height, and `.paper` is `overflow: hidden`, so the
-  last paragraphs and the sign-off are silently cut off. Ivan is tuning the size by hand — the
-  knobs are `--letter-w` / `--letter-h` in `src/styles/tokens.css` (they also set the jigsaw piece
-  size, since the 10×8 grid is stretched over the paper) and the `.paragraph` font-size in
-  `LetterScene.module.css`. Measured fits: 760 wide at 18px needs 719, 820 at 17px needs 686,
-  900 at 17px needs 633, 900 at 16px needs 553.
-- **The 100% flourish** — deliberately not designed. The handoff says to ask before inventing one.
+- The paper is smaller than the letter needs — at 640×540 and 19px the text runs to 962px — so the
+  revealed letter **scrolls** rather than being resized. Nothing is lost, but if a taller or wider
+  sheet is ever wanted, the knobs are `--letter-w` / `--letter-h` in `src/styles/tokens.css` (they
+  also set the jigsaw piece size, since the 10×8 grid is stretched over the paper) and the
+  `.paragraph` font-size in `LetterScene.module.css`. Measured fits: 760 wide at 18px needs 719,
+  820 at 17px needs 686, 900 at 17px needs 633, 900 at 16px needs 553.
 - **The blurred letter behind the puzzle modal** — the modal currently sits on a plain scrim.
 - The Iris van Herpen quip ("haute couture final boss") was written for the final slot and now sits
   at puzzle 5, with two puzzles after it. Left verbatim on purpose; worth a second look.

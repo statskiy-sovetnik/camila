@@ -1,6 +1,6 @@
-import { Avatar } from '@/components/Avatar'
 import { Button } from '@/components/Button'
 import { ProgressBar } from '@/components/ProgressBar'
+import { PromptCard } from '@/components/PromptCard'
 import { PIECES } from '@/lib/reveal'
 
 import styles from './SealedLetter.module.css'
@@ -23,8 +23,7 @@ export function SealedLetter({ onContinue }: SealedLetterProps) {
         </div>
 
         <div className={styles.scrim}>
-          <div className={styles.prompt}>
-            <Avatar size={68} className={styles.avatar} />
+          <PromptCard paper="letter" className={styles.prompt}>
             <p className={styles.copy}>
               As you can see, Camila, the letter is sealed. Let&rsquo;s not wait any longer and
               proceed to our first puzzle!
@@ -32,7 +31,7 @@ export function SealedLetter({ onContinue }: SealedLetterProps) {
             <Button size="sm" onClick={onContinue}>
               Okaay let&rsquo;s go
             </Button>
-          </div>
+          </PromptCard>
         </div>
       </div>
     </div>

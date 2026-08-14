@@ -40,28 +40,8 @@
 }
 
 .prompt {
-  position: relative;
   width: 420px;
   max-width: calc(100% - 40px);
-  margin-top: 34px; /* room for the avatar overlapping the top edge */
-  padding: 34px 38px 30px;
-  border-radius: var(--radius-row);
-  background: var(--paper);
-  text-align: center;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-/* Avatar sits half above the card's top edge. */
-.avatar {
-  position: absolute;
-  top: -34px;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .copy {

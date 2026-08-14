@@ -1,0 +1,38 @@
+/* Cookie Monster's paper card — screens 1b, 5f and 5g. */
+.wrap {
+  position: relative;
+}
+
+.avatar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.35);
+}
+
+.card {
+  /* `padding-top` is set inline — it depends on the avatar's diameter. */
+  padding: 0 38px 28px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+}
+
+/* The handoff gives the two contexts different paper: the modal cream on 5f and
+   5g, the letter's own cream on 1b, where the card sits on the letter itself. */
+.modal {
+  border-radius: var(--radius-modal);
+  background: var(--paper-modal);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.letter {
+  border-radius: var(--radius-row);
+  background: var(--paper);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+}
