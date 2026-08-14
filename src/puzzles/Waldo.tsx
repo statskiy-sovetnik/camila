@@ -1,8 +1,8 @@
 import { useState, type MouseEvent } from 'react'
 
-import { Avatar } from '@/components/Avatar'
 import { Button } from '@/components/Button'
 import { InkNote } from '@/components/InkNote'
+import { TipCloud } from '@/components/TipCloud'
 import type { WaldoPuzzle } from '@/data/puzzles'
 import { isInsideHitRegion, relativeToElement } from '@/lib/hitRegion'
 
@@ -20,7 +20,6 @@ interface WaldoProps {
 export function Waldo({ puzzle, onSolved, onWrongAnswer }: WaldoProps) {
   const [found, setFound] = useState(false)
   const [missed, setMissed] = useState(false)
-  const [tipShown, setTipShown] = useState(false)
 
   const { hitRegion } = puzzle
 
@@ -80,22 +79,7 @@ export function Waldo({ puzzle, onSolved, onWrongAnswer }: WaldoProps) {
           </div>
         </div>
 
-        <div className={styles.tipArea}>
-          {tipShown ? (
-            <>
-              <Avatar size={34} />
-              <div className={styles.cloud}>
-                <span className={`${styles.puff} ${styles.puffSmall}`} />
-                <span className={`${styles.puff} ${styles.puffLarge}`} />
-                <p className={styles.bubble}>{puzzle.tip}</p>
-              </div>
-            </>
-          ) : (
-            <button type="button" className={styles.tipButton} onClick={() => setTipShown(true)}>
-              need a tip?
-            </button>
-          )}
-        </div>
+        <TipCloud tip={puzzle.tip} />
       </div>
 
       {(found || missed) && (

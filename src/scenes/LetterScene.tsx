@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button'
 import { ProgressBar } from '@/components/ProgressBar'
+import { LETTER } from '@/data/letter'
 import { coveringPieces, newlyRevealedPieces, type Piece } from '@/lib/reveal'
 
 import styles from './LetterScene.module.css'
@@ -16,7 +17,8 @@ interface LetterSceneProps {
 /**
  * Screen 1e — the letter with the still-locked pieces on top.
  *
- * TODO: real letter copy — Ivan supplies it; what's below is the designer's placeholder.
+ * TODO: the paper is smaller than Ivan's letter needs, so the tail of it is cut
+ * off by `.paper`'s overflow. He is sizing it by hand — see the README.
  * TODO: the 100% flourish — the handoff leaves it undesigned and says to ask first.
  */
 export function LetterScene({ solvedCount, onNext }: LetterSceneProps) {
@@ -39,11 +41,15 @@ export function LetterScene({ solvedCount, onNext }: LetterSceneProps) {
 
       <div className={styles.stage}>
         <article className={styles.paper}>
-          <h2 className={styles.salutation}>My dearest Camila,</h2>
-          <p className={styles.paragraph}>
-            I have been trying to find the right words&hellip; (placeholder copy &mdash; the real
-            letter goes here)
-          </p>
+          <h2 className={styles.salutation}>{LETTER.salutation}</h2>
+
+          {LETTER.paragraphs.map((paragraph) => (
+            <p key={paragraph} className={styles.paragraph}>
+              {paragraph}
+            </p>
+          ))}
+
+          <p className={styles.signoff}>{LETTER.signoff}</p>
         </article>
 
         <div className={styles.overlay} aria-hidden="true">

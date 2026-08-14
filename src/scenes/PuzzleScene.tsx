@@ -4,6 +4,7 @@ import { Avatar } from '@/components/Avatar'
 import { ClipPlayer } from '@/components/ClipPlayer'
 import type { Puzzle } from '@/data/puzzles'
 import { PUZZLE_COUNT } from '@/lib/reveal'
+import { EmojiRiddle } from '@/puzzles/EmojiRiddle'
 import { MultipleChoice } from '@/puzzles/MultipleChoice'
 import { PicturePick } from '@/puzzles/PicturePick'
 import { Waldo } from '@/puzzles/Waldo'
@@ -26,24 +27,37 @@ export function PuzzleScene({ puzzle, index, onSolved }: PuzzleSceneProps) {
   const [shaking, setShaking] = useState(false)
   const shake = () => setShaking(true)
 
+  // The emoji riddle draws its own header, titles and paper — it swaps between
+  // two cards, so the card can't be the shell. The shell keeps the width and the
+  // shake and gets out of the way.
+  const isRiddle = puzzle.kind === 'emoji-riddle'
+
   return (
     <div className={styles.screen}>
       <div
-        className={`${styles.modal} ${shaking ? styles.shake : ''}`}
+        className={`${styles.modal} ${shaking ? styles.shake : ''} ${isRiddle ? styles.bare : ''}`}
         style={{ width: puzzle.modalWidth }}
         onAnimationEnd={() => setShaking(false)}
       >
-        <div className={styles.header}>
-          <div className={styles.identity}>
-            <Avatar size={44} />
-            <span className="eyebrow">
-              Puzzle {index + 1} of {PUZZLE_COUNT}
-            </span>
-          </div>
-          <span className={styles.quip}>{puzzle.quip}</span>
-        </div>
+        {!isRiddle && (
+          <>
+            <div className={styles.header}>
+              <div className={styles.identity}>
+                <Avatar size={44} />
+                <span className="eyebrow">
+                  Puzzle {index + 1} of {PUZZLE_COUNT}
+                </span>
+              </div>
+              <span className={styles.quip}>{puzzle.quip}</span>
+            </div>
 
-        <h2 className={styles.question}>{puzzle.question}</h2>
+            <h2 className={styles.question}>{puzzle.question}</h2>
+          </>
+        )}
+
+        {puzzle.kind === 'emoji-riddle' && (
+          <EmojiRiddle puzzle={puzzle} onSolved={onSolved} onWrongAnswer={shake} />
+        )}
 
         {puzzle.kind === 'waldo' && (
           <Waldo puzzle={puzzle} onSolved={onSolved} onWrongAnswer={shake} />

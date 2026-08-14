@@ -39,6 +39,13 @@
   margin-bottom: 14px;
 }
 
+.signoff {
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.55;
+  text-align: right;
+}
+
 /* The jigsaw overlay: 10 × 8 grid of dark pieces sitting on top of the paper.
    Deliberately unclipped, so a lifting piece can fly past the edge of the paper —
    nothing else overflows it, because pieces on the outer edge carry no knob. */

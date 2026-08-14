@@ -1,0 +1,159 @@
+/* Screen 5f — the final challenge: the intro card and the riddles that follow it.
+   The paper lives here rather than on the modal shell, because these are two
+   cards in sequence: the intro fades out and the first riddle fades in. */
+.card {
+  position: relative;
+  border-radius: var(--radius-modal);
+  background: var(--paper-modal);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ---- State 1: the intro card ------------------------------------------- */
+
+/* Wraps card + overhanging avatar, so the two fade out as one piece. */
+.introWrap {
+  position: relative;
+  /* The half of the avatar that sits above the card's top edge. */
+  padding-top: 32px;
+}
+
+.introAvatar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.35);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  /* Generous top padding leaves room under the overhanging avatar. */
+  padding: 42px 34px 26px;
+  text-align: center;
+}
+
+.introCopy {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink-body);
+}
+
+/* ---- Leaving the intro ------------------------------------------------- */
+
+/* A plain fade, card and avatar together, mirroring the riddles' `arrive`. */
+.leaving {
+  animation: leave 260ms var(--ease) forwards;
+  pointer-events: none;
+}
+
+@keyframes leave {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* ---- State 2: a riddle -------------------------------------------------- */
+
+.question {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 30px;
+  animation: arrive 250ms var(--ease);
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quip {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--ink-heading);
+}
+
+.emojis {
+  padding: 22px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--paper-option);
+  font-size: 44px;
+  line-height: 1.2;
+  letter-spacing: 6px;
+  text-align: center;
+  /* The letter-spacing adds a trailing gap that would throw the row off centre. */
+  text-indent: 6px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--paper-bubble);
+  color: var(--ink-body);
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 20px;
+  transition: border-color 120ms var(--ease);
+}
+
+/* The tip sits under the verdict, centred — the card is narrow, and the cloud
+   would otherwise hang off the left edge once it opens. */
+.tip {
+  display: flex;
+  justify-content: center;
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--border-strong);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--gold-b);
+  outline-offset: 2px;
+}

@@ -1,0 +1,58 @@
+/* "need a tip?" and the thought cloud it opens — see "5a" in design/README.md. */
+.area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--crimson-deep);
+  text-decoration: underline wavy;
+  text-underline-offset: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: var(--crimson);
+}
+
+/* Thought cloud: two small circles leading to the bubble. */
+.cloud {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.puff {
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--border-image);
+}
+
+.puffSmall {
+  width: 6px;
+  height: 6px;
+}
+
+.puffLarge {
+  width: 9px;
+  height: 9px;
+}
+
+.bubble {
+  padding: 9px 18px;
+  border: 1.5px solid var(--border-image);
+  border-radius: var(--radius-bubble);
+  background: var(--paper-bubble);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--ink-body-soft);
+}

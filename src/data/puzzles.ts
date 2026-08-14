@@ -23,13 +23,20 @@ import slushyNoobz from '@/assets/slushy-noobz.png'
 interface PuzzleBase {
   /** Narrator aside, right-aligned in the modal header. */
   quip: string
-  question: string
   /** CSS width for the modal — the handoff varies it per puzzle. */
   modalWidth: string
 }
 
+/**
+ * Every kind but the emoji riddle asks one question, drawn by the modal shell.
+ * The riddle asks three and draws its own headings, so it has no shared title.
+ */
+interface AskingPuzzle extends PuzzleBase {
+  question: string
+}
+
 /** 1c template — image + four radio rows + a Submit button. */
-export interface MultipleChoicePuzzle extends PuzzleBase {
+export interface MultipleChoicePuzzle extends AskingPuzzle {
   kind: 'multiple-choice'
   image?: { src: string; height: number; objectPosition?: string }
   options: string[]
@@ -46,7 +53,7 @@ export interface HitRegion {
 }
 
 /** 5a — click the legionary in the Rome scene. */
-export interface WaldoPuzzle extends PuzzleBase {
+export interface WaldoPuzzle extends AskingPuzzle {
   kind: 'waldo'
   scene: string
   target: { src: string; label: string }
@@ -55,7 +62,7 @@ export interface WaldoPuzzle extends PuzzleBase {
 }
 
 /** 5d — video clip + four radio rows. */
-export interface VideoPuzzle extends PuzzleBase {
+export interface VideoPuzzle extends AskingPuzzle {
   kind: 'video'
   /** Path under `public/` to a file already trimmed to the intended 15 seconds. */
   clipSrc: string
@@ -77,14 +84,41 @@ export interface PicturePickRound {
  * The rounds run back to back and count as a *single* puzzle: only clearing all
  * of them lifts a batch of pieces off the letter.
  */
-export interface PicturePickPuzzle extends PuzzleBase {
+export interface PicturePickPuzzle extends AskingPuzzle {
   kind: 'picture-pick'
   rounds: PicturePickRound[]
   /** The same line for every round. */
   wrongCopy: string
 }
 
-export type Puzzle = MultipleChoicePuzzle | WaldoPuzzle | VideoPuzzle | PicturePickPuzzle
+export interface EmojiRiddleQuestion {
+  title: string
+  emojis: string
+  /**
+   * Fragments that count as the answer. A guess is right if it *contains* any of
+   * them, ignoring case — so list the key word rather than the full name, and
+   * "aemond", "Aemond Targaryen" and "is it aemond?" all pass.
+   */
+  accepts: string[]
+  /** Optional nudge, hidden behind a "need a tip?" link. */
+  tip?: string
+}
+
+/**
+ * 5f — the final challenge: typed-answer riddles behind an intro card. Like the
+ * picture-pick's rounds, all of the questions together count as a single puzzle,
+ * so clearing the last one takes the letter to 100%.
+ */
+export interface EmojiRiddlePuzzle extends PuzzleBase {
+  kind: 'emoji-riddle'
+  intro: string
+  /** Label on the button that sets the intro card alight. */
+  startLabel: string
+  questions: EmojiRiddleQuestion[]
+}
+
+export type Puzzle =
+  MultipleChoicePuzzle | WaldoPuzzle | VideoPuzzle | PicturePickPuzzle | EmojiRiddlePuzzle
 
 export const PUZZLES: Puzzle[] = [
   {
@@ -198,13 +232,31 @@ export const PUZZLES: Puzzle[] = [
     // Not the second row: the three questions before this one all answer to 1.
     correctIndex: 2,
   },
-  // TODO(ivan): the last one is the 1c template with content still to be written.
   {
-    kind: 'multiple-choice',
-    quip: 'last one, promise',
-    question: 'TODO: seventh question',
-    modalWidth: '676px',
-    options: ['TODO', 'TODO', 'TODO', 'TODO'],
-    correctIndex: 0,
+    kind: 'emoji-riddle',
+    quip: '🔥🔥🔥',
+    modalWidth: '400px',
+    intro:
+      'Okay, Camila, this is your final challenge. Three questions, in which you will have to figure out the name of the character or location from the House of the Dragon!',
+    startLabel: 'Dracarys 🔥',
+    questions: [
+      {
+        title: "What's the name of this dude?",
+        emojis: '👁️❌💎',
+        accepts: ['aemond'],
+      },
+      {
+        title: "What's the name of this lady?",
+        emojis: '👸🚫👑',
+        accepts: ['rhaenys'],
+        tip: 'The queen who never was',
+      },
+      {
+        title: 'Can you guess this woman?',
+        emojis: '🐑🐉👧⚫',
+        accepts: ['nettles'],
+        tip: 'One of your favorite characters',
+      },
+    ],
   },
 ]

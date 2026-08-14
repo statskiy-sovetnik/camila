@@ -39,7 +39,8 @@ Node 24 (see `.nvmrc`).
 ```
 design/            design handoff, kept verbatim — the source of truth
 src/assets/        images the app imports
-src/components/    Button, Avatar, ProgressBar, InkNote, ClipPlayer, RestartButton, ConfirmDialog
+src/components/    Button, Avatar, ProgressBar, InkNote, ClipPlayer, TipCloud, RestartButton,
+                   ConfirmDialog
 src/data/          puzzles.ts — the 7 puzzles and their content
 src/lib/           reveal schedule, hit-region maths
 src/puzzles/       one body per puzzle kind, dispatched by PuzzleScene
@@ -69,7 +70,7 @@ The order of the `PUZZLES` array in `src/data/puzzles.ts` _is_ the order of the 
 4. The Neighbourhood clip
 5. Iris van Herpen dresses — three rounds, counting as one puzzle
 6. The Slushy Noobz' real names
-7. _(no content yet)_
+7. The emoji riddle — three typed answers, counting as one puzzle
 
 ## The video clip
 
@@ -122,6 +123,28 @@ still on their old `dress-*` names). One swap is deliberate: `2-3-mcqueen.jpg` h
 `mcqueen-2.jpg`, because the file Ivan numbered `2-3` was byte-identical to round 1's `1-4.jpg` and
 would have shown the same dress twice. `src/data/puzzles.test.ts` guards against that recurring.
 
+## The emoji riddle
+
+Puzzle 7 is the final challenge, and it has its own handoff bundle:
+`last-challenge/design_handoff_emoji_riddle/` (card **5f** in that mockup). An intro card burns
+away when Camila clicks "Dracarys 🔥", then three emoji riddles ask for a typed answer. Like the
+dress rounds, the three together are **one** puzzle — clearing the last one takes the letter to
+100%.
+
+Answers are matched **loosely on purpose**: a guess counts if it _contains_ any fragment in the
+riddle's `accepts[]`, ignoring case. So `accepts: ['aemond']` takes "Aemond", "aemond targaryen"
+and "is it aemond?" alike — list the key word, not the full name. A riddle can also carry an
+optional `tip`, which puts the shared `TipCloud` under the verdict.
+
+This is the one puzzle that does not use the modal shell's header: it is two cards in sequence, so
+it draws its own paper. `PuzzleScene` strips itself back to a bare wrapper for this kind (`.bare`),
+keeping only the width and the shake.
+
+The handoff asks for the intro card to burn away when "Dracarys 🔥" is clicked — charring edge, ash
+particles, the lot. That was built and then dropped at Ivan's request in favour of a plain fade
+(`.leaving`, mirroring the riddles' `arrive`). The burn version is in git history if it is ever
+wanted back.
+
 ## The jigsaw overlay
 
 `src/lib/reveal.ts` assigns each of the 80 pieces to one of the 7 puzzles and says which edge
@@ -137,15 +160,22 @@ cheaper than timing the unmount, and `prefers-reduced-motion` simply lands them 
 
 ## What is still open
 
-- **Puzzle 7** — no content yet; `src/data/puzzles.ts` has a `TODO` placeholder.
+All 7 puzzles are written and playable end to end — nothing in `src/data/puzzles.ts` is a
+placeholder any more. What is left is around them:
+
 - `src/assets/slushy-noobz.png` is a 2.9 MB PNG of what is really a photograph. Re-encoding it as
   WebP would take it under 250 KB; left as Ivan supplied it.
-- **The letter copy** — the text in `LetterScene` is the designer's placeholder. Ivan supplies the
-  real letter.
+- **The paper is too small for the letter.** Ivan's real text is in `src/data/letter.ts`, but at the
+  handoff's 640×540 and 19px it needs 962px of height, and `.paper` is `overflow: hidden`, so the
+  last paragraphs and the sign-off are silently cut off. Ivan is tuning the size by hand — the
+  knobs are `--letter-w` / `--letter-h` in `src/styles/tokens.css` (they also set the jigsaw piece
+  size, since the 10×8 grid is stretched over the paper) and the `.paragraph` font-size in
+  `LetterScene.module.css`. Measured fits: 760 wide at 18px needs 719, 820 at 17px needs 686,
+  900 at 17px needs 633, 900 at 16px needs 553.
 - **The 100% flourish** — deliberately not designed. The handoff says to ask before inventing one.
 - **The blurred letter behind the puzzle modal** — the modal currently sits on a plain scrim.
 - The Iris van Herpen quip ("haute couture final boss") was written for the final slot and now sits
-  at puzzle 5. Left verbatim on purpose; worth revisiting once 6 and 7 exist.
+  at puzzle 5, with two puzzles after it. Left verbatim on purpose; worth a second look.
 
 Every puzzle body is built. The legionary and the picture-pick have their own (`Waldo.tsx`,
 `PicturePick.tsx`); everything answered by picking one of four rows shares

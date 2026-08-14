@@ -29,6 +29,19 @@ describe('puzzles', () => {
             expect(round.correctIndex, roundLabel).toBeLessThan(round.images.length)
           })
           break
+        case 'emoji-riddle':
+          puzzle.questions.forEach((question, questionIndex) => {
+            const riddleLabel = `${label}, riddle ${questionIndex + 1}`
+
+            expect(question.emojis.trim(), riddleLabel).not.toBe('')
+            // Nothing may be unanswerable: blank fragments are skipped by the
+            // matcher, so an empty list would lock her out of the last puzzle.
+            expect(question.accepts.length, riddleLabel).toBeGreaterThan(0)
+            question.accepts.forEach((fragment) =>
+              expect(fragment.trim(), riddleLabel).not.toBe(''),
+            )
+          })
+          break
         case 'waldo':
           break
       }

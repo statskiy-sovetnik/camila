@@ -2,5 +2,6 @@ dist
 node_modules
 yarn.lock
 
-# Design handoff bundle — kept verbatim as the source of truth for pixel-perfect work
+# Design handoff bundles — kept verbatim as the source of truth for pixel-perfect work
 design
+last-challenge
