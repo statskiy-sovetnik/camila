@@ -1,0 +1,45 @@
+/* Not from the handoff — a small utility control, deliberately quiet so it never
+   competes with the crimson pill that drives the game forward. It sits on the
+   dark desk on every screen, and over the modal's scrim during a puzzle. */
+.restart {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: 1.5px dashed var(--muted-warm);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--on-dark-soft);
+
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 120ms var(--ease),
+    color 120ms var(--ease);
+}
+
+.restart:hover {
+  border-color: var(--gold-a);
+  color: var(--gold-a);
+}
+
+.restart:focus-visible {
+  outline: 2px solid var(--gold-a);
+  outline-offset: 3px;
+}
+
+.icon {
+  flex: none;
+  width: 13px;
+  height: 13px;
+}

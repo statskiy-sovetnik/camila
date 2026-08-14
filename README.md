@@ -4,7 +4,10 @@ A one-page romantic gift site. Camila receives a handwritten letter from Ivan, b
 jigsaw overlay of 80 pieces. Solving each of 7 puzzles lifts an evenly scattered batch of pieces, so
 the letter only becomes readable at 100%. A kitten narrator, Cookie Monster, guides her through it.
 
-No backend, no data fetching — progress lives in `localStorage`.
+No backend, no data fetching — progress lives in `localStorage`, under `camila.progress.v1` as a
+plain count of solved puzzles. "Restart game" in the top right wipes it, behind a confirmation; it
+is hidden on the greeting, which is already the start. `RestartButton` and `ConfirmDialog` are the
+only two pieces of UI not in the handoff — everything else is drawn from `design/`.
 
 ## Stack
 
@@ -36,7 +39,7 @@ Node 24 (see `.nvmrc`).
 ```
 design/            design handoff, kept verbatim — the source of truth
 src/assets/        images the app imports
-src/components/    Button, Avatar, ProgressBar, InkNote, ClipPlayer
+src/components/    Button, Avatar, ProgressBar, InkNote, ClipPlayer, RestartButton, ConfirmDialog
 src/data/          puzzles.ts — the 7 puzzles and their content
 src/lib/           reveal schedule, hit-region maths
 src/puzzles/       one body per puzzle kind, dispatched by PuzzleScene
