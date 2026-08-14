@@ -1,0 +1,75 @@
+/* Screen 5e — the picture-pick: four photos in one row, no Submit button. */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.choice {
+  display: block;
+  padding: 0;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-row);
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 120ms var(--ease),
+    box-shadow 160ms var(--ease),
+    opacity 160ms var(--ease);
+}
+
+.choice:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+.choice:focus-visible {
+  outline: 2px solid var(--gold-b);
+  outline-offset: 3px;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Verdict states — the picked photo is ringed, the rest recede once she's right.
+   The negative margin absorbs the extra border pixel so the row doesn't jump. */
+.correct,
+.wrong {
+  border-width: 3px;
+  margin: -1px;
+}
+
+.correct {
+  border-color: var(--success);
+  box-shadow: 0 0 0 3px var(--success-glow);
+}
+
+.wrong {
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 3px var(--crimson-glow);
+}
+
+.dimmed {
+  opacity: 0.45;
+}
+
+.locked .choice {
+  cursor: default;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}

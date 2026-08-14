@@ -64,7 +64,7 @@ The order of the `PUZZLES` array in `src/data/puzzles.ts` _is_ the order of the 
 2. Nefertiti
 3. Sheepstealer
 4. The Neighbourhood clip
-5. Iris van Herpen dresses
+5. Iris van Herpen dresses — three rounds, counting as one puzzle
 6. _(no content yet)_
 7. _(no content yet)_
 
@@ -104,19 +104,48 @@ rendered picture exactly — `max-width`/`max-height` with `width`/`height: auto
 If the scene image is ever replaced, the drag-to-calibrate overlay that produced these numbers is
 in git history (`src/dev/HitRegionOverlay.tsx`, removed once the region was set).
 
+## The dress rounds
+
+Puzzle 5 asks the same question three times over, with four fresh photos each time. All three
+rounds together are **one** puzzle: only the last round's "Next →" reports it solved, so the run
+lifts a single batch of pieces. `PicturePickPuzzle.rounds` in `src/data/puzzles.ts` holds them, and
+`PicturePick.tsx` walks the list.
+
+The photos live in `src/assets/fashion/`, named `<round>-<position>`, with `-IVH` marking the Iris
+van Herpen — **the filename is the answer key**, so `correctIndex` can be checked by eye. They are
+copies of `design/assets/fashion/`, which is Ivan's own drop and is left exactly as he arranged it;
+the names here are normalised (one source file has a space in it, and the first round's four were
+still on their old `dress-*` names). One swap is deliberate: `2-3-mcqueen.jpg` here is the handoff's
+`mcqueen-2.jpg`, because the file Ivan numbered `2-3` was byte-identical to round 1's `1-4.jpg` and
+would have shown the same dress twice. `src/data/puzzles.test.ts` guards against that recurring.
+
+## The jigsaw overlay
+
+`src/lib/reveal.ts` assigns each of the 80 pieces to one of the 7 puzzles and says which edge
+carries its knob; `LetterScene` draws them. The knob is a 22px circle in the piece's own tone
+straddling the edge, so it covers that stretch of the neighbour's seam and the pair reads as
+tab-and-slot — it is not a cut-out shape, and the overlay clips the knobs that would poke past
+the paper.
+
+The batch the last solve unlocked is still rendered, with a `lift` animation that flies it off the
+paper along a diagonal stagger and ends at `opacity: 0` (`forwards`). Nothing removes those nodes
+afterwards: the overlay is `aria-hidden` and `pointer-events: none`, so leaving them there is
+cheaper than timing the unmount, and `prefers-reduced-motion` simply lands them on the end state.
+
 ## What is still open
 
 - **Puzzles 6 and 7** — no content yet; `src/data/puzzles.ts` has `TODO` placeholders.
 - **The letter copy** — the text in `LetterScene` is the designer's placeholder. Ivan supplies the
   real letter.
 - **The 100% flourish** — deliberately not designed. The handoff says to ask before inventing one.
-- The Iris van Herpen copy ("haute couture final boss") was written for the final slot and now sits
+- **The blurred letter behind the puzzle modal** — the modal currently sits on a plain scrim.
+- The Iris van Herpen quip ("haute couture final boss") was written for the final slot and now sits
   at puzzle 5. Left verbatim on purpose; worth revisiting once 6 and 7 exist.
 
-Puzzles 1–4, 6 and 7 are built: the legionary has its own body, and everything answered by picking
-one of four rows shares `src/puzzles/MultipleChoice.tsx` (the handoff's "1c template"), including
-the video puzzle, which drops its player into that component's media slot. Puzzle 5 — the
-picture-pick with the dresses — is still a stub, as are the piece lift-out animations on the letter.
+Every puzzle body is built. The legionary and the picture-pick have their own (`Waldo.tsx`,
+`PicturePick.tsx`); everything answered by picking one of four rows shares
+`src/puzzles/MultipleChoice.tsx` (the handoff's "1c template"), including the video puzzle, which
+drops its player into that component's media slot. What is missing on 6 and 7 is only the copy.
 
 ## Deploying
 

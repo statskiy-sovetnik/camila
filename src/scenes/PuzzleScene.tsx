@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
 import { Avatar } from '@/components/Avatar'
-import { Button } from '@/components/Button'
 import { ClipPlayer } from '@/components/ClipPlayer'
 import type { Puzzle } from '@/data/puzzles'
 import { PUZZLE_COUNT } from '@/lib/reveal'
 import { MultipleChoice } from '@/puzzles/MultipleChoice'
+import { PicturePick } from '@/puzzles/PicturePick'
 import { Waldo } from '@/puzzles/Waldo'
 
 import styles from './PuzzleScene.module.css'
@@ -20,7 +20,7 @@ interface PuzzleSceneProps {
 /**
  * The modal shell every puzzle shares, plus the dispatch to each puzzle's body.
  *
- * TODO: the picture-pick body for 5e, and the blurred letter behind the modal.
+ * TODO: the blurred letter behind the modal.
  */
 export function PuzzleScene({ puzzle, index, onSolved }: PuzzleSceneProps) {
   const [shaking, setShaking] = useState(false)
@@ -71,17 +71,7 @@ export function PuzzleScene({ puzzle, index, onSolved }: PuzzleSceneProps) {
         )}
 
         {puzzle.kind === 'picture-pick' && (
-          <>
-            <p className={styles.todo}>
-              Not built yet &mdash; this is the <code>{puzzle.kind}</code> body.
-            </p>
-
-            <div className={styles.actions}>
-              <Button size="sm" onClick={onSolved}>
-                Submit
-              </Button>
-            </div>
-          </>
+          <PicturePick puzzle={puzzle} onSolved={onSolved} onWrongAnswer={shake} />
         )}
       </div>
     </div>

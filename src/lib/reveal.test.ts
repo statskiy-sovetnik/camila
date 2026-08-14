@@ -69,6 +69,21 @@ describe('reveal schedule', () => {
     }
   })
 
+  it('only knobs the edges that have a neighbour', () => {
+    PIECES.forEach((piece) => {
+      if (piece.knob === 'right') expect(piece.col).toBeLessThan(GRID_COLS - 1)
+      if (piece.knob === 'bottom') expect(piece.row).toBeLessThan(GRID_ROWS - 1)
+    })
+
+    // Nothing may stick out past the paper, in any direction.
+    expect(PIECES.filter((piece) => piece.col === GRID_COLS - 1 && piece.knob === 'right')).toEqual(
+      [],
+    )
+    expect(
+      PIECES.filter((piece) => piece.row === GRID_ROWS - 1 && piece.knob === 'bottom'),
+    ).toEqual([])
+  })
+
   it('reports the pieces lifted by the latest solve', () => {
     for (let solved = 1; solved <= PUZZLE_COUNT; solved++) {
       const lifted = newlyRevealedPieces(solved)

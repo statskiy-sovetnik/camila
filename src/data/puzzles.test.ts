@@ -22,8 +22,12 @@ describe('puzzles', () => {
           expect(puzzle.correctIndex, label).toBeLessThan(puzzle.options.length)
           break
         case 'picture-pick':
-          expect(puzzle.correctIndex, label).toBeGreaterThanOrEqual(0)
-          expect(puzzle.correctIndex, label).toBeLessThan(puzzle.images.length)
+          puzzle.rounds.forEach((round, roundIndex) => {
+            const roundLabel = `${label}, round ${roundIndex + 1}`
+
+            expect(round.correctIndex, roundLabel).toBeGreaterThanOrEqual(0)
+            expect(round.correctIndex, roundLabel).toBeLessThan(round.images.length)
+          })
           break
         case 'waldo':
           break
@@ -42,6 +46,16 @@ describe('puzzles', () => {
     expect(y).toBeGreaterThanOrEqual(0)
     expect(x + width).toBeLessThanOrEqual(1)
     expect(y + height).toBeLessThanOrEqual(1)
+  })
+
+  it('never repeats a photo across the picture-pick rounds', () => {
+    // The rounds run back to back under one question, so the same dress showing
+    // up twice would read as a bug rather than a new question.
+    PUZZLES.filter((puzzle) => puzzle.kind === 'picture-pick').forEach((puzzle) => {
+      const sources = puzzle.rounds.flatMap((round) => round.images.map((image) => image.src))
+
+      expect(new Set(sources).size).toBe(sources.length)
+    })
   })
 
   it('points the video puzzle at a local clip', () => {

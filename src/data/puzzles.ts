@@ -1,7 +1,15 @@
-import dress1 from '@/assets/dress-1.jpeg'
-import dress2 from '@/assets/dress-2.jpeg'
-import dress3 from '@/assets/dress-3.webp'
-import dress4 from '@/assets/dress-4.jpg'
+import dress11 from '@/assets/fashion/1-1.jpeg'
+import dress12 from '@/assets/fashion/1-2.jpeg'
+import dress13 from '@/assets/fashion/1-3-IVH.webp'
+import dress14 from '@/assets/fashion/1-4.jpg'
+import dress21 from '@/assets/fashion/2-1.jpg'
+import dress22 from '@/assets/fashion/2-2.avif'
+import dress23 from '@/assets/fashion/2-3-mcqueen.jpg'
+import dress24 from '@/assets/fashion/2-4-IVH.jpg'
+import dress31 from '@/assets/fashion/3-1-IVH.jpeg'
+import dress32 from '@/assets/fashion/3-2.jpg'
+import dress33 from '@/assets/fashion/3-3.webp'
+import dress34 from '@/assets/fashion/3-4.avif'
 import findRome from '@/assets/find-rome.webp'
 import legionary from '@/assets/legionary.png'
 import nefertiti from '@/assets/nefertiti.jpg'
@@ -54,12 +62,24 @@ export interface VideoPuzzle extends PuzzleBase {
   correctIndex: number
 }
 
-/** 5e — pick one of four photos, no Submit button. */
-export interface PicturePickPuzzle extends PuzzleBase {
-  kind: 'picture-pick'
+/** One round of the picture-pick: four photos, one of them the Iris van Herpen. */
+export interface PicturePickRound {
   images: { src: string; alt: string }[]
+  /** Index into `images`. */
   correctIndex: number
   correctCopy: string
+}
+
+/**
+ * 5e — pick one of four photos, no Submit button.
+ *
+ * The rounds run back to back and count as a *single* puzzle: only clearing all
+ * of them lifts a batch of pieces off the letter.
+ */
+export interface PicturePickPuzzle extends PuzzleBase {
+  kind: 'picture-pick'
+  rounds: PicturePickRound[]
+  /** The same line for every round. */
   wrongCopy: string
 }
 
@@ -119,21 +139,46 @@ export const PUZZLES: Puzzle[] = [
   },
   {
     kind: 'picture-pick',
-    // Copy is verbatim from the handoff, where this was the final puzzle. Worth
-    // revisiting once puzzles 6 and 7 have content.
     quip: 'haute couture final boss',
+    // One question for all three rounds — only the photos change under it.
     question:
       'Okay smartpants, only one of those dresses is designed by Iris Van Herpen. Which one? Choose wisely 😈',
     modalWidth: '840px',
-    images: [
-      { src: dress1, alt: 'Dress 1' },
-      { src: dress2, alt: 'Dress 2' },
-      { src: dress3, alt: 'Dress 3' },
-      { src: dress4, alt: 'Dress 4' },
+    // The filename is the answer key: `<round>-<position>`, with `-IVH` marking
+    // the Iris van Herpen. See src/assets/fashion/.
+    rounds: [
+      {
+        images: [
+          { src: dress11, alt: 'Dress 1' },
+          { src: dress12, alt: 'Dress 2' },
+          { src: dress13, alt: 'Dress 3' },
+          { src: dress14, alt: 'Dress 4' },
+        ],
+        correctIndex: 2,
+        correctCopy: "Of course you knew it. That's my girl! ✓",
+      },
+      {
+        images: [
+          { src: dress21, alt: 'Dress 1' },
+          { src: dress22, alt: 'Dress 2' },
+          { src: dress23, alt: 'Dress 3' },
+          { src: dress24, alt: 'Dress 4' },
+        ],
+        correctIndex: 3,
+        correctCopy: 'Two for two. Okay, show-off ✓',
+      },
+      {
+        images: [
+          { src: dress31, alt: 'Dress 1' },
+          { src: dress32, alt: 'Dress 2' },
+          { src: dress33, alt: 'Dress 3' },
+          { src: dress34, alt: 'Dress 4' },
+        ],
+        correctIndex: 0,
+        correctCopy: 'Three for three — haute couture queen ✓',
+      },
     ],
-    correctIndex: 2,
-    correctCopy: "Of course you knew it. That's my girl! ✓",
-    wrongCopy: 'Hmm, not this one… look closer, pookie',
+    wrongCopy: 'Not quite, try again, little dove!',
   },
   // TODO(ivan): the last two are the 1c template with content still to be written.
   {

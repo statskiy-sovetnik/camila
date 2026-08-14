@@ -31,8 +31,13 @@ export interface Piece {
   col: number
   /** Which puzzle (0-based) lifts this piece. */
   batch: number
-  /** Which edge carries the jigsaw knob — right on even pieces, bottom on odd. */
-  knob: 'right' | 'bottom'
+  /**
+   * Which edge carries the jigsaw knob — right on even pieces, bottom on odd,
+   * and `null` on the letter's outer edge, where there is no neighbour to lock
+   * into. Without those the overlay never needs to clip, and the lift-out
+   * animation can carry a piece past the edge of the paper.
+   */
+  knob: 'right' | 'bottom' | null
 }
 
 /** Small deterministic PRNG, so the layout is stable across reloads and builds. */
@@ -57,6 +62,11 @@ function shuffledColumns(row: number): number[] {
   return cols
 }
 
+function knobFor(index: number, row: number, col: number): Piece['knob'] {
+  if (index % 2 === 0) return col < GRID_COLS - 1 ? 'right' : null
+  return row < GRID_ROWS - 1 ? 'bottom' : null
+}
+
 function buildSchedule(): Piece[] {
   const pieces = new Array<Piece>(PIECE_COUNT)
 
@@ -71,7 +81,7 @@ function buildSchedule(): Piece[] {
         row,
         col,
         batch: (position + offset) % PUZZLE_COUNT,
-        knob: index % 2 === 0 ? 'right' : 'bottom',
+        knob: knobFor(index, row, col),
       }
     })
   }

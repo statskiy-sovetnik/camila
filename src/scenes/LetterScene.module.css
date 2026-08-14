@@ -39,7 +39,9 @@
   margin-bottom: 14px;
 }
 
-/* The jigsaw overlay: 10 × 8 grid of dark pieces sitting on top of the paper. */
+/* The jigsaw overlay: 10 × 8 grid of dark pieces sitting on top of the paper.
+   Deliberately unclipped, so a lifting piece can fly past the edge of the paper —
+   nothing else overflows it, because pieces on the outer edge carry no knob. */
 .overlay {
   position: absolute;
   inset: 0;
@@ -50,6 +52,46 @@
 }
 
 .piece {
+  position: relative;
   background: var(--piece);
   box-shadow: var(--seam);
+}
+
+/* The knob: a 22px circle straddling one edge, in the piece's own tone so it
+   covers that stretch of seam and the pair reads as tab-and-slot. Which edge it
+   sits on alternates by piece index — see `knob` in src/lib/reveal.ts. */
+.right::after,
+.bottom::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--piece);
+}
+
+.right::after {
+  top: 50%;
+  right: -11px;
+  transform: translateY(-50%);
+}
+
+.bottom::after {
+  left: 50%;
+  bottom: -11px;
+  transform: translateX(-50%);
+}
+
+/* Newly unlocked pieces lift off the paper and fade, staggered along a diagonal
+   by the inline `animation-delay`. `forwards` holds them at opacity 0. */
+.lifting {
+  z-index: 1;
+  animation: lift var(--t-piece) var(--ease) forwards;
+}
+
+@keyframes lift {
+  to {
+    transform: translateY(-26px) scale(1.12) rotate(-4deg);
+    opacity: 0;
+  }
 }
