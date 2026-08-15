@@ -213,5 +213,40 @@ drops its player into that component's media slot. What is missing on 6 and 7 is
 
 ## Deploying
 
-`vite.config.ts` leaves `base` at `/`. On a subpath host such as GitHub Pages it needs
-`base: '/camila/'`.
+Target is **Vercel**, wired through the GitHub integration: every push to `main` ships to
+production, every branch gets a preview URL (previews are behind Vercel login by default; the
+production URL is public).
+
+First-time setup — vercel.com → **Add New → Project → Import** `statskiy-sovetnik/camila` → Deploy.
+Leave the Build/Install/Output fields alone: `vercel.json` supplies them, and there are no
+environment variables to set (nothing in `src/` reads `import.meta.env`). Optionally pin
+Settings → Node.js Version to 24 to match `.nvmrc`, which Vercel does not read; its default is ≥ 22,
+which is what Vite 8 needs anyway.
+
+`vercel.json` pins:
+
+- `yarn install --frozen-lockfile` then `yarn build` (`tsc -b && vite build` — type errors fail the
+  deploy on purpose) into `dist`.
+- A catch-all rewrite to `/index.html`. Vercel checks the filesystem before rewrites, so real files
+  still win; this only stops a stray URL from 404ing.
+- `Cache-Control: immutable` for a year on `/assets/*` (Vite hashes those names) but one day on
+  `/media/*`, which is copied out of `public/` unhashed.
+- `X-Robots-Tag: noindex, nofollow` on everything, backing up the `<meta name="robots">` in
+  `index.html` — the letter is meant to be handed out by link, not found.
+
+`.vercelignore` keeps the design handoffs out of CLI uploads. It has no effect on Git deploys, which
+clone the whole repo; the handoff folders are never imported from `src/`, so they cost nothing but
+clone size.
+
+Rollbacks are Instant Rollback in the dashboard (Deployments → pick a previous one → Promote); build
+logs live under the same tab.
+
+To verify a deploy from the terminal:
+
+```bash
+curl -sI https://<project>.vercel.app | grep -i x-robots-tag
+curl -so /dev/null -w '%{http_code}\n' https://<project>.vercel.app/whatever  # 200 via the rewrite
+```
+
+`vite.config.ts` leaves `base` at `/`, which is what Vercel serves from. On a subpath host such as
+GitHub Pages it would need `base: '/camila/'`.
